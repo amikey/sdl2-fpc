@@ -1284,7 +1284,7 @@ function SDL_RenderSetViewport(renderer: PSDL_Renderer; const rect: PSDL_Rect): 
 procedure SDL_RenderGetViewport(renderer: PSDL_Renderer; rect: PSDL_Rect); lSDL;
 function SDL_RenderSetClipRect(renderer: PSDL_Renderer; const rect: PSDL_Rect): longint; lSDL;
 procedure SDL_RenderGetClipRect(renderer: PSDL_Renderer; rect: PSDL_Rect); lSDL;
-function SDL_RenderIsClipEnabled(renderer: PSDL_Renderer): SDL_bool;
+function SDL_RenderIsClipEnabled(renderer: PSDL_Renderer): SDL_bool; lSDl;
 function SDL_RenderSetScale(renderer: PSDL_Renderer; scaleX, scaleY: single): longint; lSDL;
 procedure SDL_RenderGetScale(renderer: PSDL_Renderer; scaleX, scaleY: psingle); lSDL;
 
