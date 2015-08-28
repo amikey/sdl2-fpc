@@ -1,6 +1,6 @@
 {
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2015 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty. In no event will the authors be held liable for any damages
@@ -578,7 +578,7 @@ procedure SDL_FreeRW(area: PSDL_RWops); lSDL;
 function SDL_RWsize(ctx: PSDL_RWops): Sint64; inline;
 function SDL_RWseek(ctx: PSDL_RWops; offset: Sint64; whence: longint): Sint64; inline;
 function SDL_RWtell(ctx: PSDL_RWops): Sint64; inline;
-function SDL_RWread(ctx: PSDL_RWops; ptr: pointer; size ,n: longword): longword; inline;
+function SDL_RWread(ctx: PSDL_RWops; ptr: pointer; size, n: longword): longword; inline;
 function SDL_RWwrite(ctx: PSDL_RWops; ptr: pointer; size, n: longword): longword; inline;
 function SDL_RWclose(ctx: PSDL_RWops): longint; inline;
 
