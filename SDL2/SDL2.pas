@@ -407,7 +407,7 @@ function SDL_GetPowerInfo(secs, pct: plongint): TSDL_PowerState; lSDL;
 // SDL_timer.h
 
 type
-  TSDL_TimerCallback = function(interval: Uint32; param: pointer): Uint32;
+  TSDL_TimerCallback = function(interval: Uint32; param: pointer): Uint32; cdecl;
   TSDL_TimerID = longint;
 
 function SDL_GetTicks: Uint32; lSDL;
@@ -965,7 +965,7 @@ type
     refcount: longint;
   end;
 
-  TSDL_Blit = function(src: PSDL_Surface; srcrect: PSDL_Rect; dst: PSDL_Surface; dstrect: PSDL_Rect): longint;
+  TSDL_Blit = function(src: PSDL_Surface; srcrect: PSDL_Rect; dst: PSDL_Surface; dstrect: PSDL_Rect): longint; cdecl;
 
 function SDL_MUSTLOCK(S: PSDL_Surface): boolean; inline;
 
@@ -2736,7 +2736,7 @@ function SDL_RegisterEvents(numevents: longint): Uint32; lSDL;
 
 {$IFDEF WINDOWS}
 type
-  TSDL_WindowsMessageHook = procedure(userdata, hWnd: pointer; message: longword; wParam: Uint64; lParam: Sint64);
+  TSDL_WindowsMessageHook = procedure(userdata, hWnd: pointer; message: longword; wParam: Uint64; lParam: Sint64); cdecl;
 
 procedure SDL_SetWindowsMessageHook(callback: TSDL_WindowsMessageHook; userdata: pointer); lSDL;
 function SDL_Direct3D9GetAdapterIndex(displayIndex: longint): longint; lSDL;
