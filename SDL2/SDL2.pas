@@ -349,6 +349,7 @@ function SDL_HasSSE3: SDL_bool; lSDL;
 function SDL_HasSSE41: SDL_bool; lSDL;
 function SDL_HasSSE42: SDL_bool; lSDL;
 function SDL_HasAVX: SDL_bool; lSDL;
+function SDL_HasAVX2: SDL_bool; lSDL;
 function SDL_GetSystemRAM: longint; lSDL;
 
 
