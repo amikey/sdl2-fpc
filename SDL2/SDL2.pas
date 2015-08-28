@@ -1962,25 +1962,31 @@ const
   SDL_SYSTEM_CURSOR_HAND = 11;
   SDL_NUM_SYSTEM_CURSORS = 12;
 
+  SDL_MOUSEWHEEL_NORMAL = 0;
+  SDL_MOUSEWHEEL_FLIPPED = 1;
+
   SDL_BUTTON_LEFT   = 1;
   SDL_BUTTON_MIDDLE = 2;
   SDL_BUTTON_RIGHT  = 3;
   SDL_BUTTON_X1     = 4;
   SDL_BUTTON_X2     = 5;
-  SDL_BUTTON_LMASK  = 1 shl ((SDL_BUTTON_LEFT) - 1);
-  SDL_BUTTON_MMASK  = 1 shl ((SDL_BUTTON_MIDDLE) - 1);
-  SDL_BUTTON_RMASK  = 1 shl ((SDL_BUTTON_RIGHT) - 1);
-  SDL_BUTTON_X1MASK = 1 shl ((SDL_BUTTON_X1) - 1);
-  SDL_BUTTON_X2MASK = 1 shl ((SDL_BUTTON_X2) - 1);
+  SDL_BUTTON_LMASK  = 1 shl (SDL_BUTTON_LEFT - 1);
+  SDL_BUTTON_MMASK  = 1 shl (SDL_BUTTON_MIDDLE - 1);
+  SDL_BUTTON_RMASK  = 1 shl (SDL_BUTTON_RIGHT - 1);
+  SDL_BUTTON_X1MASK = 1 shl (SDL_BUTTON_X1 - 1);
+  SDL_BUTTON_X2MASK = 1 shl (SDL_BUTTON_X2 - 1);
 
 function SDL_GetMouseFocus: PSDL_Window; lSDL;
 function SDL_GetMouseState(x, y: plongint): Uint32; lSDL;
+function SDL_GetGlobalMouseState(x, y: plongint): Uint32; lSDL;
 function SDL_GetRelativeMouseState(x, y: plongint): Uint32; lSDL;
 procedure SDL_WarpMouseInWindow(window: PSDL_Window; x, y: longint); lSDL;
+function SDL_WarpMouseGlobal(x, y: longint): longint; lSDL;
 function SDL_SetRelativeMouseMode(enabled: SDL_bool): longint; lSDL;
+function SDL_CaptureMouse(enabled: SDL_bool): longint; lSDL;
 function SDL_GetRelativeMouseMode: SDL_bool; lSDL;
 
-function SDL_CreateCursor(const data , mask: PUint8; w, h, hot_x, hot_y: longint): PSDL_Cursor; lSDL;
+function SDL_CreateCursor(const data, mask: PUint8; w, h, hot_x, hot_y: longint): PSDL_Cursor; lSDL;
 function SDL_CreateColorCursor(surface: PSDL_Surface; hot_x, hot_y: longint): PSDL_Cursor; lSDL;
 function SDL_CreateSystemCursor(id: longword): PSDL_Cursor; lSDL;
 procedure SDL_SetCursor(cursor: PSDL_Cursor); lSDL;
