@@ -2710,13 +2710,19 @@ function SDL_RegisterEvents(numevents: longint): Uint32; lSDL;
 // SDL_system.h
 
 {$IFDEF WINDOWS}
+type
+  TSDL_WindowsMessageHook = procedure(userdata, hWnd: pointer; message: longword; wParam: Uint64; lParam: Sint64);
+
+procedure SDL_SetWindowsMessageHook(callback: TSDL_WindowsMessageHook; userdata: pointer); lSDL;
 function SDL_Direct3D9GetAdapterIndex(displayIndex: longint): longint; lSDL;
 function SDL_RenderGetD3D9Device(renderer: PSDL_Renderer): pointer; lSDL;
 procedure SDL_DXGIGetOutputInfo(displayIndex: longint; adapterIndex, outputIndex: plongint); lSDL;
 {$ENDIF}
 
 {$IFDEF IPHONEOS}
+function SDL_SDL_iOSSetAnimationCallback(window: PSDL_Window; interval: longint; callback, callbackParam: pointer); inline;
 function SDL_iPhoneSetAnimationCallback(window: PSDL_Window; interval: longint; callback, callbackParam: pointer); lSDL;
+procedure SDL_iOSSetEventPump(enabled: SDL_bool); inline;
 procedure SDL_iPhoneSetEventPump(enabled: SDL_bool); lSDL;
 {$ENDIF}
 
@@ -3145,5 +3151,19 @@ function SDL_GetEventState(type_: Uint32): Uint8; inline;
 begin
   exit(SDL_EventState(type_, SDL_QUERY));
 end;
+
+
+// SDL_system.h
+
+function SDL_SDL_iOSSetAnimationCallback(window: PSDL_Window; interval: longint; callback, callbackParam: pointer); inline;
+begin
+  SDL_iPhoneSetAnimationCallback(window, interval, callback, callbackParam);
+end;
+
+procedure SDL_iOSSetEventPump(enabled: SDL_bool); inline;
+begin
+  SDL_iPhoneSetEventPump(enabled: SDL_bool); inline;
+end;
+
 
 end.
