@@ -1,7 +1,9 @@
 SDL2 headers for Free Pascal Compiler
 
 1.18 (..15)
+  SDL 2.0.4
   Added license info
+  Fixed declarations of some callbacks.
 
 1.17 (17.12.14)
   SDL_CreateThread fix for Windows
