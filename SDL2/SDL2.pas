@@ -833,6 +833,8 @@ const
   SDL_PIXELFORMAT_YUY2 = $32595559;
   SDL_PIXELFORMAT_UYVY = $59565955;
   SDL_PIXELFORMAT_YVYU = $55595659;
+  SDL_PIXELFORMAT_NV12 = $3231564E;
+  SDL_PIXELFORMAT_NV21 = $3132564E;
 
 type
   PSDL_Color = ^TSDL_Color;
@@ -881,6 +883,8 @@ function SDL_PIXELLAYOUT(X: Uint32): Uint32; inline;
 function SDL_BITSPERPIXEL(X: Uint32): Uint32; inline;
 function SDL_BYTESPERPIXEL(X: Uint32): Uint32; inline;
 function SDL_ISPIXELFORMAT_INDEXED(format: Uint32): boolean; inline;
+function SDL_ISPIXELFORMAT_PACKED(format: Uint32): boolean; inline;
+function SDL_ISPIXELFORMAT_ARRAY(format: Uint32): boolean; inline;
 function SDL_ISPIXELFORMAT_ALPHA(format: Uint32): boolean; inline;
 function SDL_ISPIXELFORMAT_FOURCC(format: Uint32): boolean; inline;
 
@@ -3026,19 +3030,42 @@ end;
 
 function SDL_ISPIXELFORMAT_INDEXED(format: Uint32): boolean; inline;
 begin
-  exit((not SDL_ISPIXELFORMAT_FOURCC(format)) and
+  exit(not SDL_ISPIXELFORMAT_FOURCC(format) and
        ((SDL_PIXELTYPE(format) = SDL_PIXELTYPE_INDEX1) or
         (SDL_PIXELTYPE(format) = SDL_PIXELTYPE_INDEX4) or
         (SDL_PIXELTYPE(format) = SDL_PIXELTYPE_INDEX8)));
 end;
 
+function SDL_ISPIXELFORMAT_PACKED(format: Uint32): boolean; inline;
+begin
+  exit(not SDL_ISPIXELFORMAT_FOURCC(format) and
+       ((SDL_PIXELTYPE(format) = SDL_PIXELTYPE_PACKED8) or
+        (SDL_PIXELTYPE(format) = SDL_PIXELTYPE_PACKED16) or
+        (SDL_PIXELTYPE(format) = SDL_PIXELTYPE_PACKED32)));
+end;
+
+function SDL_ISPIXELFORMAT_ARRAY(format: Uint32): boolean; inline;
+begin
+  exit(not SDL_ISPIXELFORMAT_FOURCC(format) and
+       ((SDL_PIXELTYPE(format) = SDL_PIXELTYPE_ARRAYU8) or
+        (SDL_PIXELTYPE(format) = SDL_PIXELTYPE_ARRAYU16) or
+        (SDL_PIXELTYPE(format) = SDL_PIXELTYPE_ARRAYU32) or
+        (SDL_PIXELTYPE(format) = SDL_PIXELTYPE_ARRAYF16) or
+        (SDL_PIXELTYPE(format) = SDL_PIXELTYPE_ARRAYF32)));
+end;
+
 function SDL_ISPIXELFORMAT_ALPHA(format: Uint32): boolean; inline;
 begin
-  exit((not SDL_ISPIXELFORMAT_FOURCC(format)) and
-       ((SDL_PIXELORDER(format) = SDL_PACKEDORDER_ARGB) or
-        (SDL_PIXELORDER(format) = SDL_PACKEDORDER_RGBA) or
-        (SDL_PIXELORDER(format) = SDL_PACKEDORDER_ABGR) or
-        (SDL_PIXELORDER(format) = SDL_PACKEDORDER_BGRA)));
+  exit((SDL_ISPIXELFORMAT_PACKED(format) and
+        ((SDL_PIXELORDER(format) = SDL_PACKEDORDER_ARGB) or
+         (SDL_PIXELORDER(format) = SDL_PACKEDORDER_RGBA) or
+         (SDL_PIXELORDER(format) = SDL_PACKEDORDER_ABGR) or
+         (SDL_PIXELORDER(format) = SDL_PACKEDORDER_BGRA))) or
+       (SDL_ISPIXELFORMAT_ARRAY(format) and
+        ((SDL_PIXELORDER(format) == SDL_ARRAYORDER_ARGB) or
+         (SDL_PIXELORDER(format) == SDL_ARRAYORDER_RGBA) or
+         (SDL_PIXELORDER(format) == SDL_ARRAYORDER_ABGR) or
+         (SDL_PIXELORDER(format) == SDL_ARRAYORDER_BGRA))));
 end;
 
 function SDL_ISPIXELFORMAT_FOURCC(format: Uint32): boolean; inline;
