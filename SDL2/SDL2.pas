@@ -918,6 +918,7 @@ type
     w, h: longint;
   end;
 
+function SDL_PointInRect(const p: PSDL_Point; const r: PSDL_Rect): SDL_bool; inline;
 function SDL_RectEmpty(const x: PSDL_Rect): SDL_bool; inline;
 function SDL_RectEquals(const a, b: PSDL_Rect): SDL_bool; inline;
 
@@ -3075,6 +3076,11 @@ end;
 
 
 // SDL_rect.h
+
+function SDL_PointInRect(const p: PSDL_Point; const r: PSDL_Rect): SDL_bool; inline;
+begin
+  exit((p^.x >= r^.x) and (p^.x < r^.x + r^.w) and (p^.y >= r^.y) and (p^.y < r^.y + r^.h));
+end;
 
 function SDL_RectEmpty(const x: PSDL_Rect): SDL_bool; inline;
 begin
