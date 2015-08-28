@@ -2354,7 +2354,11 @@ const
   SDL_CLIPBOARDUPDATE = $900;
 
   SDL_DROPFILE = $1000;
+  SDL_AUDIODEVICEADDED = $1100;
+  SDL_AUDIODEVICEREMOVED = $1101;
+
   SDL_RENDER_TARGETS_RESET = $2000;
+  SDL_RENDER_DEVICE_RESET = $2001;
 
   SDL_USEREVENT = $8000;
 
@@ -2448,6 +2452,7 @@ type
     windowID,
     which: Uint32;
     x, y: Sint32;
+    direction: Uint32;
   end;
 
   TSDL_JoyAxisEvent = record
@@ -2525,6 +2530,16 @@ type
     type_,
     timestamp: Uint32;
     which: Sint32;
+  end;
+
+ TSDL_AudioDeviceEvent = record
+    type_,
+    timestamp_,
+    which: Uint32;
+    iscapture,
+    padding1,
+    padding2,
+    padding3: Uint8;
   end;
 
   TSDL_TouchFingerEvent = record
@@ -2616,6 +2631,8 @@ type
       SDL_CONTROLLERDEVICEADDED,
       SDL_CONTROLLERDEVICEREMOVED,
       SDL_CONTROLLERDEVICEREMAPPED: (cdevice: TSDL_ControllerDeviceEvent);
+      SDL_AUDIODEVICEADDED,
+      SDL_AUDIODEVICEREMOVED:       (adevice: TSDL_AudioDeviceEvent);
       SDL_QUITEV:                   (quit: TSDL_QuitEvent);
       SDL_USEREVENT:                (user: TSDL_UserEvent);
       SDL_SYSWMEVENT:               (syswm: TSDL_SysWMEvent);
