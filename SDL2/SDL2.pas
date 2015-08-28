@@ -200,7 +200,7 @@ procedure SDL_Quit; lSDL;
 const
   SDL_MAJOR_VERSION = 2;
   SDL_MINOR_VERSION = 0;
-  SDL_PATCHLEVEL    = 3;
+  SDL_PATCHLEVEL    = 4;
 
 type
   PSDL_version = ^TSDL_version;
