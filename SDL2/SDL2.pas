@@ -1025,6 +1025,7 @@ const
   SDL_WINDOW_FULLSCREEN_DESKTOP = SDL_WINDOW_FULLSCREEN or $00001000;
   SDL_WINDOW_FOREIGN = $00000800;
   SDL_WINDOW_ALLOW_HIGHDPI = $00002000;
+  SDL_WINDOW_MOUSE_CAPTURE = $00004000;
 
   SDL_WINDOWPOS_UNDEFINED_MASK = $1FFF0000;
   SDL_WINDOWPOS_UNDEFINED = SDL_WINDOWPOS_UNDEFINED_MASK or 0;
@@ -1047,17 +1048,6 @@ const
   SDL_WINDOWEVENT_FOCUS_GAINED = 12;
   SDL_WINDOWEVENT_FOCUS_LOST = 13;
   SDL_WINDOWEVENT_CLOSE = 14;
-
-  // GLprofile
-  SDL_GL_CONTEXT_PROFILE_CORE = $0001;
-  SDL_GL_CONTEXT_PROFILE_COMPATIBILITY = $0002;
-  SDL_GL_CONTEXT_PROFILE_ES = $0004;
-
-  // GLcontextFlag
-  SDL_GL_CONTEXT_DEBUG_FLAG              = $0001;
-  SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG = $0002;
-  SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG      = $0004;
-  SDL_GL_CONTEXT_RESET_ISOLATION_FLAG    = $0008;
 
 type
   PSDL_DisplayMode = ^TSDL_DisplayMode;
@@ -1097,7 +1087,39 @@ type
     SDL_GL_CONTEXT_FLAGS,
     SDL_GL_CONTEXT_PROFILE_MASK,
     SDL_GL_SHARE_WITH_CURRENT_CONTEXT,
-    SDL_GL_FRAMEBUFFER_SRGB_CAPABLE);
+    SDL_GL_FRAMEBUFFER_SRGB_CAPABLE,
+    SDL_GL_CONTEXT_RELEASE_BEHAVIOR);
+
+const
+  // GLprofile
+  SDL_GL_CONTEXT_PROFILE_CORE = $0001;
+  SDL_GL_CONTEXT_PROFILE_COMPATIBILITY = $0002;
+  SDL_GL_CONTEXT_PROFILE_ES = $0004;
+
+  // GLcontextFlag
+  SDL_GL_CONTEXT_DEBUG_FLAG              = $0001;
+  SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG = $0002;
+  SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG      = $0004;
+  SDL_GL_CONTEXT_RESET_ISOLATION_FLAG    = $0008;
+
+  // GLcontextReleaseFlag
+  SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE  = $0000;
+  SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH = $0001;
+
+type
+  TSDL_HitTestResult = (
+    SDL_HITTEST_NORMAL,
+    SDL_HITTEST_DRAGGABLE,
+    SDL_HITTEST_RESIZE_TOPLEFT,
+    SDL_HITTEST_RESIZE_TOP,
+    SDL_HITTEST_RESIZE_TOPRIGHT,
+    SDL_HITTEST_RESIZE_RIGHT,
+    SDL_HITTEST_RESIZE_BOTTOMRIGHT,
+    SDL_HITTEST_RESIZE_BOTTOM,
+    SDL_HITTEST_RESIZE_BOTTOMLEFT,
+    SDL_HITTEST_RESIZE_LEFT);
+
+  TSDL_HitTest = function(win: PSDL_Window; const area: PSDL_Point; data: pointer): SDL_HitTestResult; cdecl;
 
 function SDL_GetNumVideoDrivers: longint; lSDL;
 function SDL_GetVideoDriver(index: longint): PAnsiChar; lSDL;
@@ -1107,6 +1129,7 @@ function SDL_GetCurrentVideoDriver: PAnsiChar; lSDL;
 function SDL_GetNumVideoDisplays: longint; lSDL;
 function SDL_GetDisplayName(displayIndex: longint): PAnsiChar; lSDL;
 function SDL_GetDisplayBounds(displayIndex: longint; rect: PSDL_Rect): longint; lSDL;
+function SDL_GetDisplayDPI(displayIndex: longint; ddpi, hdpi, vdpi: pfloat): longint; lSDL;
 function SDL_GetNumDisplayModes(displayIndex: longint): longint; lSDL;
 function SDL_GetDisplayMode(displayIndex, modeIndex: longint; mode: PSDL_DisplayMode): longint; lSDL;
 function SDL_GetDesktopDisplayMode(displayIndex: longint; mode: PSDL_DisplayMode): longint; lSDL;
@@ -1149,11 +1172,13 @@ function SDL_UpdateWindowSurface(window: PSDL_Window): longint; lSDL;
 function SDL_UpdateWindowSurfaceRects(window: PSDL_Window; rects: PSDL_Rect; numrects: longint): longint; lSDL;
 procedure SDL_SetWindowGrab(window: PSDL_Window; grabbed: SDL_bool); lSDL;
 function SDL_GetWindowGrab(window: PSDL_Window): SDL_bool; lSDL;
+function SDL_GetGrabbedWindow: PSDL_Window; lSDL;
 function SDL_SetWindowBrightness(window: PSDL_Window; brightness: single): longint; lSDL;
 function SDL_GetWindowBrightness(window: PSDL_Window): single; lSDL;
 function SDL_SetWindowGammaRamp(window: PSDL_Window; const red, green, blue: PUint16): longint; lSDL;
 function SDL_GetWindowGammaRamp(window: PSDL_Window; red, green, blue: PUint16): longint; lSDL;
 
+function SDL_SetWindowHitTest(window: PSDL_Window; callback: TSDL_HitTest; callback_data: pointer): longint; lSDL;
 procedure SDL_DestroyWindow(window: PSDL_Window); lSDL;
 function SDL_IsScreenSaverEnabled: SDL_bool; lSDL;
 procedure SDL_EnableScreenSaver; lSDL;
