@@ -152,6 +152,9 @@ function SDL_scalbn(x: double; n: longint): double; lSDL;
 function SDL_sin(x: double): double; lSDL;
 function SDL_sinf(x: single): single; lSDL;
 function SDL_sqrt(x: double): double; lSDL;
+function SDL_sqrtf(float x): single; lSDL;
+function SDL_tan(double x): double; lSDL;
+function SDL_tanf(float x): single; lSDL;
 
 function SDL_iconv_open(const tocode, fromcode: PAnsiChar): TSDL_iconv_t; lSDL;
 function SDL_iconv_close(cd: TSDL_iconv_t): longint; lSDL;
